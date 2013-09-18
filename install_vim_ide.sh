@@ -12,31 +12,34 @@ function command_t
 function run_once
 {
     if [ -f !d_ctags ];then
-        vim_ide_packages
         sudo rm -rf /usr/bin/ctags
         sudo rm -rf /usr/bin/etags
         touch d_ctags
         sleep 20
-
+        vim_ide_packages
+    else
+        exit 0
     fi
 }
 function vim_ide_packages
 {
-    sudo apt-get install -y vim-gnome ruby-dev bash-completion python-pip 
-    run_once
+    sudo apt-get install -y vim-gnome ruby-dev bash-completion python-pip exuberant-ctags
     sudo pip install dbgp vim-debug
     install-vim-debug.py
+    config_rc_files
+}
+function config_rc_files
+{
     cp -r ./* $HOME/.vim
     cp -r ./.vimrc $HOME
-    sudo apt-get install -y exuberant-ctags
     echo "setting bashrc"
     cat git_prompt >> $HOME/.bashrc
     sleep 5
     source ~/.bashrc
+    command_t
    
 }
 
 echo -e "\t\t Installing Vim IDE."
-vim_ide_packages
-command_t
+run_once
 echo -e "\t\t Vim IDE Installed Successfully"
