@@ -11,8 +11,8 @@ function vim_ide_packages
     apt-get install -y exuberant-ctags
     pip install dbgp vim-debug
     install-vim-debug.py
-    cp -r vim/* $HOME/.vim
-    cp -r vim/.vimrc $HOME
+    cp -r ./* $HOME/.vim
+    cp -r ./.vimrc $HOME
    
 }
 
