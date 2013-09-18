@@ -1,28 +1,34 @@
 #!/bin/bash
 
-#set -e 
-deleted=`pwd`/d_ctags
+set -e 
 
+function command_t
+{
+    vim -c 'so%' -c 'q' -c 'q' command-t-1.4.vba
+    cd $HOME/.vim/ruby/command-t
+    $(whereis ruby | awk '{print $2}' | sed -n 's/\/usr\/bin\///p') extconf.rb
+    make
+}
 function run_once
 {
     if [ -f !d_ctags ];then
-        rm -rf /usr/bin/ctags
-        rm -rf /usr/bin/etags
+        vim_ide_packages
+        sudo rm -rf /usr/bin/ctags
+        sudo rm -rf /usr/bin/etags
         touch d_ctags
         sleep 20
+
     fi
 }
 function vim_ide_packages
 {
-    apt-get install -y vim-gnome ruby-dev bash-completion 
+    sudo apt-get install -y vim-gnome ruby-dev bash-completion python-pip 
     run_once
-    
-    pip install dbgp vim-debug
+    sudo pip install dbgp vim-debug
     install-vim-debug.py
     cp -r ./* $HOME/.vim
     cp -r ./.vimrc $HOME
-    apt-get install -y exuberant-ctags
-    sleep 5
+    sudo apt-get install -y exuberant-ctags
     echo "setting bashrc"
     cat git_prompt >> $HOME/.bashrc
     sleep 5
@@ -30,10 +36,7 @@ function vim_ide_packages
    
 }
 
-if [ $USER != "root" ];then
-    echo -e "\t\t Root privilege Required."
-else
-    echo -e "\t\t Installing Vim IDE."
-    vim_ide_packages
-fi
-
+echo -e "\t\t Installing Vim IDE."
+vim_ide_packages
+command_t
+echo -e "\t\t Vim IDE Installed Successfully"
