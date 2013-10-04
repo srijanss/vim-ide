@@ -1,18 +1,20 @@
 " An example for a vimrc file.
 "
-" Maintainer:	Bram Moolenaar <Bram@vim.org>
-" Last change:	2011 Apr 15
+" Maintainer:   Bram Moolenaar <Bram@vim.org>
+" Last change:  2011 Apr 15
 "
 " To use it, copy it to
 "     for Unix and OS/2:  ~/.vimrc
-"	      for Amiga:  s:.vimrc
+"         for Amiga:  s:.vimrc
 "  for MS-DOS and Win32:  $VIM\_vimrc
-"	    for OpenVMS:  sys$login:.vimrc
+"       for OpenVMS:  sys$login:.vimrc
 
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
   finish
 endif
+
+let maplocalleader = ","
 
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
@@ -39,7 +41,23 @@ map <Leader>z :Dbg .<CR>
 map <Leader>x :Dbg quit<CR>
 map <Leader>s :w<CR>
 map <Leader>q :q!<CR>
-map <C-s> :wq<CR>
+map <c-z> u
+imap <c-z> <esc>ui
+nmap <c-f> :set foldmethod=indent<cr>
+nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <Leader>gv :source $MYVIMRC<cr>
+nnoremap <Leader>eb :vsplit ~/.bashrc<cr>
+nnoremap <Leader>\ :
+augroup autocommand_group
+    autocmd!
+    autocmd BufWritePre,BufRead *.html :normal gg=G
+    autocmd BufWritePre,BufRead *.py :normal gg=G
+    autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
+    autocmd FileType javascript vnoremap <buffer> <localleader>c :s/^/\/\//<esc>
+    autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
+    autocmd FileType python vnoremap <buffer> <localleader>c :s/^/#/<esc>
+    autocmd BufNewFile *.py :execute "normal! Iimport\n\n\n\ndef\n\n\n\nif __name__ == \"__main__\":\n"
+augroup END
 set tags=tags
 "let g:miniBufExplMapWindowNavVim=1
 "let g:miniBufExplMapWindowNavArrows=1
@@ -54,14 +72,14 @@ set tags=tags
 "map <Leader>ft zM
 
 if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
+  set nobackup      " do not keep a backup file, use versions instead
 else
-  set nobackup		" keep a backup file
+  set nobackup      " keep a backup file
 endif
-set history=50		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
+set history=50      " keep 50 lines of command line history
+set ruler       " show the cursor position all the time
+set showcmd     " display incomplete commands
+set incsearch       " do incremental searching
 set number
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
@@ -107,7 +125,7 @@ if has("autocmd")
   " Also don't do it when the mark is in the first line, that is the default
   " position when opening a file.
   autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+    \ if line("'\r") > 1 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
     \ endif
 
@@ -115,7 +133,7 @@ if has("autocmd")
 
 else
 
-  set autoindent		" always set autoindenting on
+  set autoindent        " always set autoindenting on
 
 endif " has("autocmd")
 
@@ -124,5 +142,5 @@ endif " has("autocmd")
 " Only define it when not defined already.
 if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
+          \ | wincmd p | diffthis
 endif
