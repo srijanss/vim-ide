@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#VIM installation script for Ubuntu
 set -e 
 
 function command_t
