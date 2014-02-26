@@ -42,6 +42,10 @@ map <Leader>x :Dbg quit<CR>
 map <Leader>s :w<CR>
 map <Leader>q :q!<CR>
 map <c-z> u
+map <Leader>f :normal gg=G<CR>
+map <Leader>c :setlocal noautoindent<CR>
+map <Leader>cc :setlocal autoindent<CR>
+map <c-t> :%retab!<CR>
 imap <c-z> <esc>ui
 nmap <c-f> :set foldmethod=indent<cr>
 nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
@@ -50,13 +54,15 @@ nnoremap <Leader>eb :vsplit ~/.bashrc<cr>
 nnoremap <Leader>\ :
 augroup autocommand_group
     autocmd!
-    autocmd BufWritePre,BufRead *.html :normal gg=G
-    autocmd BufWritePre,BufRead *.py :normal gg=G
+"    autocmd BufWritePre,BufRead *.html :normal gg=G
+"    autocmd BufWritePre,BufRead *.py :normal gg=G
     autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
     autocmd FileType javascript vnoremap <buffer> <localleader>c :s/^/\/\//<esc>
+    autocmd FileType javascript vnoremap <buffer> <localleader>u :s/\/\///<esc>
     autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
     autocmd FileType python vnoremap <buffer> <localleader>c :s/^/#/<esc>
-    autocmd BufNewFile *.py :execute "normal! Iimport\n\n\n\ndef\n\n\n\nif __name__ == \"__main__\":\n"
+    autocmd FileType python vnoremap <buffer> <localleader>u :s/#//<esc>
+    "autocmd BufNewFile *.py :execute "normal! Iimport\n\n\n\ndef\n\n\n\nif __name__ == \"__main__\":\n"
 augroup END
 set tags=tags
 "let g:miniBufExplMapWindowNavVim=1
