@@ -8,3 +8,8 @@ INSTALL
 
 ./install_vim_ide.sh
 
+Copy .vimrc to $HOME
+
+Inside project folder execute
+    ctags-exuberant -R
+
