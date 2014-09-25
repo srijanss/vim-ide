@@ -1,0 +1,7 @@
+#!/bin/bash
+
+filename=$HOME/Pictures/`date +"Screenshot_%Y-%m-%d-%T.png"`
+
+scrot $filename
+
+gpicview $filename

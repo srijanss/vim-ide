@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+transset-df -p --min 0.1 --dec 0.1
