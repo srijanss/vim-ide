@@ -1,0 +1,3 @@
+#!/bin/bash
+
+svn cp https://kurssisvn.cs.tut.fi:10005/ryhmat/manandhs/trunk/hw$1 https://kurssisvn.cs.tut.fi:10005/ryhmat/manandhs/tags/hw$1_$2 -m "Submission"
