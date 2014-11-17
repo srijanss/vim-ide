@@ -8,6 +8,81 @@
 "         for Amiga:  s:.vimrc
 "  for MS-DOS and Win32:  $VIM\_vimrc
 "       for OpenVMS:  sys$login:.vimrc
+" Use Vim settings, rather than Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
+"enable pathogen
+call pathogen#helptags()
+call pathogen#incubate()
+
+"new settings added from nvie.com
+set hidden
+"set nowrap
+set autoindent
+set copyindent
+set showmatch
+set ignorecase
+set smartcase
+set smarttab
+set wildignore=*.swp,*.bak,*.pyc,*.class
+set title
+set visualbell
+set noerrorbells
+
+"python tab completion using pydiction
+filetype plugin on
+let g:pydiction_location = '/home/srijan/.vim/bundle/pydiction/complete-dict'
+
+"python documentation in vim
+let g:pydoc_cmd = "/usr/bin/pydoc"
+
+
+"javascript addition from http://oli.me.uk/2013/06/29/equipping-vim-for-javascript/
+"au FileType javascript call JavaScriptFold()
+let javascript_enable_domhtmlcss=0
+let b:javascript_fold=1
+let g:javascript_conceal=0
+let javascript_ignore_javaScriptdoc=0
+let g:ycm_add_preview_to_completeopt=0
+let g:ycm_confirm_extra_conf=0
+set completeopt-=preview
+set ts=4 sw=4 et
+let g:indent_guides_start_level=2
+let g:indent_guides_guide_size=1
+let g:indent_guides_auto_colors = 0
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=darkgrey
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=darkgrey
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red  ctermfg=243 ctermbg=233
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermfg=243 ctermbg=233
+
+"vim screen navigation shortcuts
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+
+"disabled up down arrowsin vim
+map <left> <nop>
+map <right> <nop>
+map <up> <nop>
+map <down> <nop>
+
+
+"set list
+"set listchars=tab:>.,trail:.,extends:#,nbsp:.
+
+"if forgot to use sudo use w!!
+cmap w!! w !sudo tee % >/dev/null
+
+set t_Co=256
+syntax on
+set background=dark
+colorscheme codeschool
+
+set pastetoggle=<F2>
+
+map <F4> :highlight Comment ctermfg=lightblue<CR>
 
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
@@ -16,40 +91,41 @@ endif
 
 let maplocalleader = ","
 
-" Use Vim settings, rather than Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 "set smartindent
 set tabstop=4
 set shiftwidth=4
+set shiftround
 set expandtab
 retab
 set noswapfile
 "map <Leader>q :q!<Enter>
 "map <Leader>w :w!<Enter>
 "map <Leader>wq :wq!<Enter>
+map <Leader>uf zR
 map <Leader>ct :s/^/#/<Enter>
 map <Leader>ut :s/#//<Enter>
 nmap <F9> :bNext<CR>
+nmap <F5> :cnext<CR>
 nmap <F6> :tnext<CR>
 nmap <F8> :TagbarToggle<CR>
 nmap <F7> :NERDTreeToggle<CR>
 map <Leader>n :CommandT<CR>
-map <Leader>z :Dbg .<CR>
-map <Leader>x :Dbg quit<CR>
+"map <Leader>z :Dbg .<CR>
+"map <Leader>x :Dbg quit<CR>
 map <Leader>s :w<CR>
 map <Leader>q :q!<CR>
 map <c-z> u
 map <Leader>f :normal gg=G<CR>
 map <Leader>c :setlocal noautoindent<CR>
 map <Leader>cc :setlocal autoindent<CR>
-map <c-t> :%retab!<CR>
+"map <c-t> :%retab!<CR>
+map <Leader>ooo :vim /*/ **/*.* 
 imap <c-z> <esc>ui
 nmap <c-f> :set foldmethod=indent<cr>
-nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <Leader>gv :source $MYVIMRC<cr>
+nmap <silent> <Leader>ev :e $MYVIMRC<cr>
+nmap <silent> <Leader>gv :so $MYVIMRC<cr>
 nnoremap <Leader>eb :vsplit ~/.bashrc<cr>
 nnoremap <Leader>\ :
 augroup autocommand_group
@@ -62,6 +138,7 @@ augroup autocommand_group
     autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
     autocmd FileType python vnoremap <buffer> <localleader>c :s/^/#/<esc>
     autocmd FileType python vnoremap <buffer> <localleader>u :s/#//<esc>
+    autocmd FileType python set expandtab
     "autocmd BufNewFile *.py :execute "normal! Iimport\n\n\n\ndef\n\n\n\nif __name__ == \"__main__\":\n"
 augroup END
 set tags=tags
@@ -72,17 +149,18 @@ set tags=tags
 "code folding
 "set foldmethod=manual
 "autocmd BufNewFile,BufRead *.py set foldmethod=indent
-"map <Leader>f zc
-"map <Leader>nf zo
-"map <Leader>nt zR
-"map <Leader>ft zM
+map <Leader>f zc
+map <Leader>nf zo
+map <Leader>nt zR
+map <Leader>ft zM
 
 if has("vms")
   set nobackup      " do not keep a backup file, use versions instead
 else
   set nobackup      " keep a backup file
 endif
-set history=50      " keep 50 lines of command line history
+set history=1000      " keep 50 lines of command line history
+set undolevels=1000
 set ruler       " show the cursor position all the time
 set showcmd     " display incomplete commands
 set incsearch       " do incremental searching
@@ -101,6 +179,7 @@ inoremap <C-U> <C-G>u<C-U>
 if has('mouse')
   set mouse-=a
 endif
+set mouse=a
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
