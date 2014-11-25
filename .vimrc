@@ -55,6 +55,8 @@ let g:indent_guides_auto_colors = 0
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=darkgrey
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red  ctermfg=243 ctermbg=233
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermfg=243 ctermbg=233
+"IndentGuidesToggle
+map <C-i> :IndentGuidesToggle<CR>
 
 "vim screen navigation shortcuts
 map <C-h> <C-w>h
@@ -67,6 +69,9 @@ map <left> <nop>
 map <right> <nop>
 map <up> <nop>
 map <down> <nop>
+
+imap <C-f> <C-o>0
+imap <C-l> <C-o>$
 
 
 "set list
@@ -140,6 +145,12 @@ augroup autocommand_group
     autocmd FileType python vnoremap <buffer> <localleader>u :s/#//<esc>
     autocmd FileType python set expandtab
     "autocmd BufNewFile *.py :execute "normal! Iimport\n\n\n\ndef\n\n\n\nif __name__ == \"__main__\":\n"
+    "rainbow parenthesis for clojure
+    autocmd FileType clojure au VimEnter * RainbowParenthesesToggle
+    autocmd FileType clojure au Syntax * RainbowParenthesesLoadRound
+    autocmd FileType clojure au Syntax * RainbowParenthesesLoadSquare
+    autocmd FileType clojure au Syntax * RainbowParenthesesLoadBraces
+     
 augroup END
 set tags=tags
 "let g:miniBufExplMapWindowNavVim=1

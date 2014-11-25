@@ -1,0 +1,1 @@
+vim -c "helptags ~/.vim/bundle/vim-leiningen/doc" -c "q"
